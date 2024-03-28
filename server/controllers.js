@@ -1,7 +1,7 @@
 const pool = require('./db.js')
 require('dotenv').config()
 
-exports.getQuestions = async (req, res)=>{
+exports.getQuestions = async (req, res) => {
   var count = 5;
   if (req.query.count) {
     count = req.query.count
@@ -17,7 +17,7 @@ exports.getQuestions = async (req, res)=>{
         questionsResult.rows[i].answers[answersResult.rows[j].id].photos = answersPhotosResult.rows
       }
     }
-    const result = {'product_id': req.query.product_id, 'results': questionsResult.rows}
+    const result = { 'product_id': req.query.product_id, 'results': questionsResult.rows }
     res.send(result)
     res.status(200)
   } else {

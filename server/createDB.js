@@ -22,7 +22,7 @@ const createDB = async function () {
   }
 
   const loadQuestionData = async function () {
-    const questionsPath = '/tmp/sample_data/questions.csv'
+    const questionsPath = '../temp/questions.csv'
     await client.query(`Copy QuestionsAnswersSchema.questions(id, product_id, body, date_written, asker_name, asker_email, reported, helpfulness) FROM '${questionsPath}' DELIMITER ',' CSV HEADER`, (err, callback)=>{if (err) {
       console.log('error: ', err)
     } else {
@@ -30,7 +30,7 @@ const createDB = async function () {
     }})
   }
   const loadAnswerData = async function () {
-    const answersPath = '/tmp/sample_data/answers.csv'
+    const answersPath = '../temp/answers.csv'
     await client.query(`Copy QuestionsAnswersSchema.answers(id, question_id, body, date_written, answerer_name, answerer_email, reported, helpfulness) FROM '${answersPath}' DELIMITER ',' CSV HEADER`, (err, callback)=>{if (err) {
       console.log('error: ', err)
     } else {
@@ -38,7 +38,7 @@ const createDB = async function () {
     }})
   }
   const loadAnswersPhotosData = async function () {
-    const answers_photosPath = '/tmp/sample_data/answers_photos.csv'
+    const answers_photosPath = '../temp/answers_photos.csv'
     await client.query(`Copy QuestionsAnswersSchema.answers_photos(id, answer_id, url) FROM '${answers_photosPath}' DELIMITER ',' CSV HEADER`, (err, callback)=>{if (err) {
       console.log('error: ', err)
     } else {
