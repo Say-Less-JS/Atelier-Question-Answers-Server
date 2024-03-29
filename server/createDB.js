@@ -44,6 +44,12 @@ const createDB = async function () {
     url VARCHAR)`);
   }
 
+  const createIndexes = async function () {
+    await client.query(`CREATE INDEX product_id_index ON ${process.env.SCHEMA}.questions (product_id)`);
+    await client.query(`CREATE INDEX question_id_index ON ${process.env.SCHEMA}.answers (question_id)`);
+    await client.query(`CREATE INDEX answer_id_index ON ${process.env.SCHEMA}.answers_photos (answer_id)`);
+  }
+
   const loadQuestionData = async function () {
     const questionsPath = '../temp/questions.csv'
     await client.query(`Copy QuestionsAnswersSchema.questions(id, product_id, body, date_written, asker_name, asker_email, reported, helpfulness) FROM '${questionsPath}' DELIMITER ',' CSV HEADER`, (err, callback) => {
@@ -76,7 +82,7 @@ const createDB = async function () {
   }
 
 
-  createSchemaAndTables().then(async () => {
+  createSchemaAndTables().then(() => { createIndexes() }).then(async () => {
     var isQTableEmpty = await client.query('SELECT * FROM questionsanswersschema.questions WHERE id = 1')
     var isATableEmpty = await client.query('SELECT * FROM questionsanswersschema.answers WHERE id = 1')
     var isAPTableEmpty = await client.query('SELECT * FROM questionsanswersschema.answers_photos WHERE id = 1')
